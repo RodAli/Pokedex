@@ -14,6 +14,7 @@ export type PokemonBase = {
 const App = () => {
 
   const [listOfPokemon, setListOfPokemon] = useState<PokemonBase[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
 
   useEffect(() => {
     getListOfPokemon((data: PokemonBase[]) => {
@@ -27,9 +28,12 @@ const App = () => {
     <div id="app">
       <Header />
       <div>Pokedex</div>
-      <input type='text' onChange={(e) => console.log(e.target.value)}></input>
+      <input type='text' value={searchText} onChange={(e) => setSearchText(e.target.value)}></input>
       <div id="pokemon-card-list-container">
-      {listOfPokemon.map(p => <PokemonCard key={p.id} pokemon={p} />)}
+        {listOfPokemon
+          .filter(p => p.name.includes(searchText))
+          .map(p => <PokemonCard key={p.id} pokemon={p} />)
+        }
       </div>
     </div>
   );

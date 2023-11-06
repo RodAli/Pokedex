@@ -6,9 +6,9 @@ type PokemonCardProps = {
 }
 
 export const PokemonCard = (props: PokemonCardProps) => {
-
     return (<div className="pokemon-card">
-        {props.pokemon.name}
+        <div>{props.pokemon.name}</div>
+        <div>#{props.pokemon.id}</div>
         <img src={props.pokemon.sprite} />
     </div>);
 }
