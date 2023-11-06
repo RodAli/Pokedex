@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import { getListOfPokemon } from './NetworkController';
 import './App.css';
+import { PokemonCard } from './PokemonCard';
+
+type PokemonBase = {
+  name: string;
+  url: string;
+}
 
 const App = () => {
 
-  const [listOfPokemon, setListOfPokemon] = useState<any[]>([]);
+  const [listOfPokemon, setListOfPokemon] = useState<PokemonBase[]>([]);
 
   useEffect(() => {
-    getListOfPokemon((data: any[]) => {
+    getListOfPokemon((data: PokemonBase[]) => {
       setListOfPokemon(data);
     }, (message: string) => {
       console.error(message);
@@ -18,8 +24,10 @@ const App = () => {
   return (
     <div id="app">
       <Header />
-      <div>
-      {listOfPokemon.map(p => <div>{p.name} {p.url}</div>)}
+      <div>Pokedex</div>
+      <input type='text' onChange={(e) => console.log(e.target.value)}></input>
+      <div id="pokemon-card-list-container">
+      {listOfPokemon.map(p => <PokemonCard name={p.name} />)}
       </div>
     </div>
   );
