@@ -1,12 +1,14 @@
-import "./PokemonCard.css"
+import { PokemonBase } from "./App";
+import "./PokemonCard.css";
 
 type PokemonCardProps = {
-    name: string;
+    pokemon: PokemonBase;
 }
 
 export const PokemonCard = (props: PokemonCardProps) => {
 
     return (<div className="pokemon-card">
-        {props.name}
+        {props.pokemon.name}
+        <img src={props.pokemon.sprite} />
     </div>);
 }

@@ -4,9 +4,11 @@ import { getListOfPokemon } from './NetworkController';
 import './App.css';
 import { PokemonCard } from './PokemonCard';
 
-type PokemonBase = {
+export type PokemonBase = {
+  id: number;
   name: string;
   url: string;
+  sprite: string;
 }
 
 const App = () => {
@@ -27,7 +29,7 @@ const App = () => {
       <div>Pokedex</div>
       <input type='text' onChange={(e) => console.log(e.target.value)}></input>
       <div id="pokemon-card-list-container">
-      {listOfPokemon.map(p => <PokemonCard name={p.name} />)}
+      {listOfPokemon.map(p => <PokemonCard key={p.id} pokemon={p} />)}
       </div>
     </div>
   );
