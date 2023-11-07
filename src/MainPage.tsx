@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getListOfPokemon } from "./NetworkController";
 import { PokemonBase } from "./Types";
 import { PokemonCard } from "./PokemonCard";
+import "./styles/MainPage.css"
 
 
 export const MainPage = () => {
