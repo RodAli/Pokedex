@@ -6,8 +6,8 @@ import {
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
-import MainPage from './MainPage';
-import PokemonDetailPage from './PokemonDetailPage';
+import MainPage, { MainPageLoader } from './MainPage';
+import PokemonDetailPage, { PokemonDetailPageLoader } from './PokemonDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -17,11 +17,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <MainPage />
+        element: <MainPage />,
+        loader: MainPageLoader
       },
       {
         path: "/pokemon/:pokemonId",
-        element: <PokemonDetailPage />
+        element: <PokemonDetailPage />,
+        loader: PokemonDetailPageLoader
       }
     ]
   }

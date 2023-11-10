@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PokemonBase } from "./Types";
 import "./styles/PokemonCard.css";
+import { CleanName } from "./Util";
 
 type PokemonCardProps = {
     pokemon: PokemonBase;
@@ -16,8 +17,8 @@ export const PokemonCard = (props: PokemonCardProps) => {
 
     return (
         <div className="pokemon-card" onClick={onCardClick}>
-            <div>{props.pokemon.name}</div>
-            <div>#{props.pokemon.id}</div>
+            <div>{props.pokemon.displayName}</div>
+            <div>{props.pokemon.displayId}</div>
             <img src={props.pokemon.sprite} />
         </div>
     );

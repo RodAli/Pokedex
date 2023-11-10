@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getListOfPokemon } from "./NetworkController";
 import { PokemonBase } from "./Types";
 import { PokemonCard } from "./PokemonCard";
 import "./styles/MainPage.css"
+import { useLoaderData } from "react-router-dom";
 
+type LoaderResponse = {
+    listOfPokemon: PokemonBase[];
+}
+
+export async function MainPageLoader(): Promise<LoaderResponse> {
+    const listOfPokemon = await getListOfPokemon();
+    return { listOfPokemon };
+}
 
 export const MainPage = () => {
 
-    const [listOfPokemon, setListOfPokemon] = useState<PokemonBase[]>([]);
     const [searchText, setSearchText] = useState<string>("");
 
-    useEffect(() => {
-        getListOfPokemon((data: PokemonBase[]) => {
-            setListOfPokemon(data);
-        }, (message: string) => {
-            console.error(message);
-        })
-    }, [])
+    const { listOfPokemon } = useLoaderData() as LoaderResponse;
 
     return (
         <>

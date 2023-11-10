@@ -1,5 +1,4 @@
 import "./styles/Header.css";
-import { getListOfPokemon } from "./NetworkController";
 
 const Header = () => {
     return (

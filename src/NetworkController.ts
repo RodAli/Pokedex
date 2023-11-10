@@ -1,39 +1,70 @@
 // const axios = require("axios").default;
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
+import { CleanName, GetDisplayId } from "./Util";
 
 const NUM_POKEMON_LIMIT = 1017;
-const LS_KEY = "pokemon_list_data";
+const POKEMON_LIST_KEY = "pokemon_list_data";
+const POKEMON_KEY = "pokemon_data_";
 const rootURL = "https://pokeapi.co/api/v2";
 const rootSpriteURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
-const getListOfPokemon = (onSuccess: Function, onFailure: Function) => {
-    // See if the data is in local storage
-    const localStorageData = JSON.parse(localStorage.getItem(LS_KEY) || "null");
+export const getListOfPokemon = async () => {
+    // Check if data is in localStorage, if so, get from there
+    const localStorageData = JSON.parse(localStorage.getItem(POKEMON_LIST_KEY) || "null");
     if (localStorageData) {
-        onSuccess(localStorageData);
+        return localStorageData;
     }
 
-    // If not, make the network request
-    axios.get(`${rootURL}/pokemon/?limit=${NUM_POKEMON_LIMIT}`)
-        .then((response: AxiosResponse) => {
-            // Massage the data
-            const resultsArray = response.data.results.map((p: any, idx: number) => { 
-                return {
-                    ...p, 
-                    id: idx + 1,
-                    sprite: `${rootSpriteURL}/${idx + 1}.png`
-                }
-            });
+    try {
+        // Fetch the data
+        const response = await axios.get(`${rootURL}/pokemon/?limit=${NUM_POKEMON_LIMIT}`);
+        
+        // Massage the data
+        const resultData = response.data.results.map((p: any, idx: number) => { 
+            return {
+                ...p,
+                displayName: CleanName(p.name),
+                displayId: GetDisplayId(idx + 1),
+                id: idx + 1,
+                sprite: `${rootSpriteURL}/${idx + 1}.png`
+            }
+        });
 
-            // Store in local storage
-            localStorage.setItem(LS_KEY, JSON.stringify(resultsArray));
-            
-            // Call success callback
-            onSuccess(resultsArray);
-        })
-        .catch((error: AxiosError) => {
-            onFailure(error.message);
-        })
+        // Store in local storage
+        localStorage.setItem(POKEMON_LIST_KEY, JSON.stringify(resultData));
+
+        return resultData;
+
+    } catch (error) {
+        console.error(error);
+    }
+    
 }
 
-export { getListOfPokemon };
+export const getPokemon = async (pokemonId: number) => {
+    // Check if data is in localStorage, if so, get from there
+    const localStorageKey = POKEMON_KEY + pokemonId;
+    const localStorageData = JSON.parse(localStorage.getItem(localStorageKey) || "null");
+    if (localStorageData) {
+        return localStorageData;
+    }
+
+    try {
+        // Fetch the data
+        const response = await axios.get(`${rootURL}/pokemon/${pokemonId}`);
+
+        // Massage data
+        const data = {
+            ...response.data,
+            displayName: CleanName(response.data.name),
+            displayId: GetDisplayId(response.data.id),
+        }
+
+        // Set in localStorage
+        localStorage.setItem(localStorageKey, JSON.stringify(data));
+
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
