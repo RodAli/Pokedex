@@ -1,0 +1,21 @@
+#detail-page-container {
+    background-color: white;
+    border-radius: 10px;
+    width: 50vw;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#pokemon-sprite {
+    margin: 0 0 25px 0;
+}
+
+#name-container {
+    margin: 0 0 25px 0;
+}
+
+#type-container {
+    margin: 0 0 25px 0;
+}

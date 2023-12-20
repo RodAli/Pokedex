@@ -1,6 +1,7 @@
 // const axios = require("axios").default;
 import axios from 'axios';
 import { CleanName, GetDisplayId } from "./Util";
+import { PokemonDetail } from './Types';
 
 const NUM_POKEMON_LIMIT = 1017;
 const POKEMON_LIST_KEY = "pokemon_list_data";
@@ -54,7 +55,7 @@ export const getPokemon = async (pokemonId: number) => {
         const response = await axios.get(`${rootURL}/pokemon/${pokemonId}`);
 
         // Massage data
-        const data = {
+        const data: PokemonDetail = {
             ...response.data,
             displayName: CleanName(response.data.name),
             displayId: GetDisplayId(response.data.id),

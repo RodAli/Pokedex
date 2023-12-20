@@ -22,8 +22,13 @@ export const MainPage = () => {
 
     return (
         <>
-            <div>Pokedex</div>
-            <input type='text' value={searchText} onChange={(e) => setSearchText(e.target.value)}></input>
+            <input 
+                id="search-box" 
+                type='text' 
+                value={searchText} 
+                onChange={(e) => setSearchText(e.target.value)}
+                autoComplete="off"
+                autoFocus />
             <div id="pokemon-card-list-container">
                 {listOfPokemon
                     .filter(p => p.name.includes(searchText))
