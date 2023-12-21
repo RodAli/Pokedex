@@ -1,7 +1,8 @@
 import { useLoaderData } from "react-router-dom";
 import { getPokemon } from "./NetworkController";
-import { PokemonDetail } from "./Types";
+import { PokemonDetail, PokemonType } from "./Types";
 import "./styles/PokemonDetailPage.css"
+import { TypeBadge } from "./TypeBadge";
 
 type LoaderResponse = {
     pokemonData: PokemonDetail;
@@ -24,9 +25,11 @@ const PokemonDetailPage = () => {
         </div>
 
         <div id="type-container">
-            <div>{pokemonData.types[0]?.type.name}</div>
-            <div>{pokemonData.types[1]?.type.name}</div>
+            <TypeBadge type={pokemonData.types[0]?.type.name} />
+            <div style={{width: "7px"}}></div>
+            {pokemonData.types[1] ? <TypeBadge type={pokemonData.types[1]?.type.name} /> : null}
         </div>
+        
         
         {pokemonData.stats.map((s, i) => <div key={i}>{s.stat.name} {s.base_stat}</div>)}
     </div>;
