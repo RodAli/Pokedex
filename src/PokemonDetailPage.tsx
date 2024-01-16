@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { getPokemon } from "./NetworkController";
 import { PokemonDetail, PokemonType } from "./Types";
 import "./styles/PokemonDetailPage.css"
@@ -17,12 +17,24 @@ export async function PokemonDetailPageLoader({ params }: any): Promise<LoaderRe
 const PokemonDetailPage = () => {
     const { pokemonData } = useLoaderData() as LoaderResponse;
 
+    const navigate = useNavigate();
+
+    const onBackBtnClick = () => {
+        navigate(`/`);
+    }
+
     const statData: any[][] = [["Name", "Value", { role: "style" }]];
     pokemonData.stats.forEach(stat => {
         statData.push([TypeNameMap(stat.stat.name), stat.base_stat, StatToBarStyle(stat.base_stat)])
     });
 
     return <div id="detail-page-container">
+        <div id="back-btn-container">
+            <div id="icon-wrap">
+                <svg id="back-btn" onClick={onBackBtnClick} xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+            </div>
+        </div>
+
         <img id="pokemon-sprite" src={pokemonData.sprites.other["official-artwork"].front_default} width={100} height={100}/>
         
         <div id="name-container">
