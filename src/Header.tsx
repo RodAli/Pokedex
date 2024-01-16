@@ -1,9 +1,10 @@
 import "./styles/Header.css";
+import PokedexText from "./images/PokedexText.png";
 
 const Header = () => {
     return (
         <div id="header">
-            <img src="./images/PokedexText.png" width={115}/>
+            <img src={PokedexText} width={115}/>
         </div>
     );
 }

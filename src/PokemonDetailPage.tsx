@@ -17,9 +17,9 @@ export async function PokemonDetailPageLoader({ params }: any): Promise<LoaderRe
 const PokemonDetailPage = () => {
     const { pokemonData } = useLoaderData() as LoaderResponse;
 
-    const statData: any[][] = [["Name", "Value"]];
+    const statData: any[][] = [["Name", "Value", { role: "style" }]];
     pokemonData.stats.forEach(stat => {
-        statData.push([stat.stat.name, stat.base_stat])
+        statData.push([TypeNameMap(stat.stat.name), stat.base_stat, StatToBarStyle(stat.base_stat)])
     });
 
     return <div id="detail-page-container">
@@ -36,10 +36,7 @@ const PokemonDetailPage = () => {
                 <div style={{width: "7px"}}></div>
                 <TypeBadge type={pokemonData.types[1]?.type.name} />
             </> : null}
-        </div>
-        
-        
-        {/* {pokemonData.stats.map((s, i) => <div key={i}>{s.stat.name} {s.base_stat}</div>)} */}
+        </div> 
         <Chart 
             chartType="BarChart"
             width="100%"
@@ -47,21 +44,51 @@ const PokemonDetailPage = () => {
             data={statData}
             options={options}
         />
-        
-
     </div>;
 }
 
-  export const options = {
-    title: "Hello",
+export const options = {
+    title: "",
     chartArea: { width: "50%" },
     hAxis: {
-      title: "Value",
+      title: "",
       minValue: 0,
     },
     vAxis: {
-      title: "Name",
+      title: "",
     },
-  };
+    legend: { position: "none" }
+};
+
+const StatToBarStyle = (stat: number): string => {
+    if (stat < 60) {
+        return "color: #fc5603; opacity: 0.7;";
+    } else if (stat < 100) {
+        return "color: #fcdb03; opacity: 0.7;";
+    } else if (stat < 150) {
+        return "color: #12ad07; opacity: 0.7;";
+    } else {
+        return "color: #009eed; opacity: 0.7;";
+    }
+}
+
+const TypeNameMap = (name: string): string => {
+    switch(name) {
+        case "hp":
+            return "HP";
+        case "attack":
+            return "Attack";
+        case "defense":
+            return "Defense";
+        case "special-attack":
+            return "Sp. Atk";
+        case "special-defense":
+            return "Sp. Def";
+        case "speed":
+            return "Speed";
+        default:
+            return "";
+    }
+}
 
 export default PokemonDetailPage;

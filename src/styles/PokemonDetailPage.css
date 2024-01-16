@@ -9,7 +9,7 @@
 }
 
 #pokemon-sprite {
-    margin: 0 0 25px 0;
+    margin: 25px 0 25px 0;
 }
 
 #name-container {
@@ -17,7 +17,6 @@
 }
 
 #type-container {
-    margin: 0 0 25px 0;
     display: flex;
     flex-direction: row;
 }
