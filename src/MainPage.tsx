@@ -28,6 +28,7 @@ export const MainPage = () => {
                 value={searchText} 
                 onChange={(e) => setSearchText(e.target.value)}
                 autoComplete="off"
+                placeholder="Search Pokemon"
                 autoFocus />
             <div id="pokemon-card-list-container">
                 {listOfPokemon
